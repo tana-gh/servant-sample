@@ -1,12 +1,13 @@
 {-# LANGUAGE DeriveGeneric #-}
 
-module Type where
+module Sample.Types where
 
 import Data.Aeson
 import GHC.Generics
 
-newtype LoginParams = LoginParams
-    { loginName :: String
+data LoginParams = LoginParams
+    { loginName     :: String
+    , loginPassword :: String
     } deriving (Eq, Generic, Read, Show)
 
 instance FromJSON LoginParams

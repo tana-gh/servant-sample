@@ -1,4 +1,4 @@
-module Config where
+module Sample.Config where
 
 import Database.Persist.Sqlite
 import Servant.Auth.Server

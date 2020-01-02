@@ -1,4 +1,4 @@
-module Key where
+module Sample.Key where
 
 import Servant.Auth.Server
 

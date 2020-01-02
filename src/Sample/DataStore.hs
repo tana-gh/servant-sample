@@ -1,16 +1,18 @@
 {-# LANGUAGE FlexibleContexts    #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 
-module DataStore (runSql, selectAllUsers, selectOneUser) where
+module Sample.DataStore where
 
 import Conduit
-import Config
 import Control.Monad.Logger
 import Control.Monad.Reader.Class
 import Database.Esqueleto as E
-import Migration
+import Sample.Config
+import Sample.Migration
 
-runSql :: (MonadReader MyConfig m, MonadIO m) => SqlPersistM a -> m a
+runSql ::
+    (MonadReader MyConfig m, MonadIO m) =>
+    SqlPersistM a -> m a
 runSql sql = do
     pool <- asks myConfigPool
     liftIO . runResourceT . runNoLoggingT $ (`runSqlPool` pool) sql
@@ -21,12 +23,11 @@ selectAllUsers =
 
 selectOneUser :: String -> SqlPersistM (Maybe (Entity User))
 selectOneUser name = do
-    result <- select . from $
-        \user -> do
-            where_ $ user ^. UserName E.==. val name
-            return user
+    result <- select . from $ \user -> do
+        where_ $ user ^. UserName E.==. val name
+        return user
     case result of
-        user : _
-            -> return $ Just user
-        _
-            -> return Nothing
+        user : _ ->
+            return $ Just user
+        _　->
+            return Nothing

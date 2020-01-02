@@ -8,21 +8,24 @@
 {-# LANGUAGE TemplateHaskell            #-}
 {-# LANGUAGE TypeFamilies               #-}
 
-module Migration where
+module Sample.Migration where
 
 import Conduit
 import Control.Monad.Logger
 import Control.Monad.Reader
+import Data.Either.Combinators
 import Data.Text
 import Database.Esqueleto
 import Database.Persist.Sqlite
 import Database.Persist.TH
 import GHC.Generics
+import Sample.Password
 import Servant.Auth.Server
 
 share [mkPersist sqlSettings, mkMigrate "migrateAll"] [persistLowerCase|
     User json
         name String
+        password String
         age Int Maybe
         deriving Eq Generic Read Show
 |]
@@ -37,8 +40,12 @@ doMigration migration =
         insertTestData
     where
     insertTestData = do
-        _ <- insert $ User "tana"        $ Just 36
-        _ <- insert $ User "hiki_neet_p" $ Just 30
+        insertOneTestData "tana"        "password" (Just 36)
+        insertOneTestData "hiki_neet_p" "foobar"   (Just 30)
+        return ()
+    insertOneTestData name password age = do
+        hash <- liftIO $ fromRight' <$> generatePasswordHash password
+        _ <- insert $ User name hash age
         return ()
 
 getSqliteFilePath :: Text

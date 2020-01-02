@@ -1,10 +1,10 @@
 {-# LANGUAGE DataKinds #-}
 
-module App (app) where
+module Sample.App (app) where
 
-import Api
-import Config
 import Control.Monad.Reader
+import Sample.Api
+import Sample.Config
 import Servant
 import Servant.Auth.Server
 

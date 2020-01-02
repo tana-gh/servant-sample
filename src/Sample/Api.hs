@@ -1,28 +1,30 @@
-{-# LANGUAGE DataKinds     #-}
-{-# LANGUAGE TypeOperators #-}
+{-# LANGUAGE DataKinds        #-}
+{-# LANGUAGE FlexibleContexts #-}
+{-# LANGUAGE TypeOperators    #-}
 
-module Api (MyApi, server) where
+module Sample.Api (MyApi, server) where
 
-import Config
 import Control.Monad.Reader
 import Database.Persist
-import DataStore
-import Migration
+import Sample.Config
+import Sample.DataStore
+import Sample.Migration
+import Sample.Password
+import Sample.Types
 import Servant
 import Servant.Auth.Server
 import System.IO
-import Type
 
-type MyApi = (Auth '[JWT] (Entity User) :> Protected) :<|> Unprotected
+type MyApi = (MyAuth :> Protected) :<|> Unprotected
+
+type MyAuth = Auth '[JWT] (Entity User)
 
 type Protected =
     "user" :> "all" :> Get '[JSON] [Entity User] :<|>
     "user" :> Capture "name" String :> Get '[JSON] (Entity User)
 
 type Unprotected =
-    "login" :>
-    ReqBody '[JSON] LoginParams :>
-    Post '[JSON] Token
+    "login" :> ReqBody '[JSON] LoginParams :> Post '[JSON] Token
 
 type MyHandler = ReaderT MyConfig Handler
 
@@ -31,12 +33,11 @@ server = protected :<|> unprotected
 
 protected :: AuthResult (Entity User) -> ServerT Protected MyHandler
 protected (Authenticated user) =
-    getAllUsers user :<|>
-    getOneUser  user
+    getAllUsers user :<|> getOneUser user
 protected _ = throwAll err401
 
 unprotected :: ServerT Unprotected MyHandler
-unprotected = login
+unprotected = logIn
 
 getAllUsers :: Entity User -> MyHandler [Entity User]
 getAllUsers _ = runSql selectAllUsers
@@ -48,11 +49,14 @@ getOneUser _ name = do
         Just u  -> return u
         Nothing -> throwError err404
 
-login :: LoginParams -> MyHandler Token
-login loginParams = do
+logIn :: LoginParams -> MyHandler Token
+logIn loginParams = do
     mUser <- runSql . selectOneUser $ loginName loginParams
     case mUser of
-        Just u  -> Token <$> getJWT u
+        Just u ->
+            if validatePasswordString (userPassword . entityVal $ u) (loginPassword loginParams)
+                then Token <$> getJWT u
+                else throwError err401
         Nothing -> throwError err401
 
 getJWT :: Entity User -> MyHandler String
