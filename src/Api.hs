@@ -5,6 +5,7 @@ module Api (MyApi, server) where
 
 import Config
 import Control.Monad.Reader
+import Database.Persist
 import DataStore
 import Migration
 import Servant
@@ -12,11 +13,11 @@ import Servant.Auth.Server
 import System.IO
 import Type
 
-type MyApi = (Auth '[JWT] User :> Protected) :<|> Unprotected
+type MyApi = (Auth '[JWT] (Entity User) :> Protected) :<|> Unprotected
 
 type Protected =
-    "user" :> "all" :> Get '[JSON] [User] :<|>
-    "user" :> Capture "name" String :> Get '[JSON] User
+    "user" :> "all" :> Get '[JSON] [Entity User] :<|>
+    "user" :> Capture "name" String :> Get '[JSON] (Entity User)
 
 type Unprotected =
     "login" :>
@@ -28,7 +29,7 @@ type MyHandler = ReaderT MyConfig Handler
 server :: ServerT MyApi MyHandler
 server = protected :<|> unprotected
 
-protected :: AuthResult User -> ServerT Protected MyHandler
+protected :: AuthResult (Entity User) -> ServerT Protected MyHandler
 protected (Authenticated user) =
     getAllUsers user :<|>
     getOneUser  user
@@ -37,24 +38,24 @@ protected _ = throwAll err401
 unprotected :: ServerT Unprotected MyHandler
 unprotected = login
 
-getAllUsers :: User -> MyHandler [User]
-getAllUsers _ = fetchAll
+getAllUsers :: Entity User -> MyHandler [Entity User]
+getAllUsers _ = runSql selectAllUsers
 
-getOneUser :: User -> String -> MyHandler User
+getOneUser :: Entity User -> String -> MyHandler (Entity User)
 getOneUser _ name = do
-    mUser <- fetchOne name
+    mUser <- runSql $ selectOneUser name
     case mUser of
         Just u  -> return u
         Nothing -> throwError err404
 
 login :: LoginParams -> MyHandler Token
 login loginParams = do
-    mUser <- fetchOne $ loginName loginParams
+    mUser <- runSql . selectOneUser $ loginName loginParams
     case mUser of
         Just u  -> Token <$> getJWT u
-        Nothing -> throwError err404
+        Nothing -> throwError err401
 
-getJWT :: User -> MyHandler String
+getJWT :: Entity User -> MyHandler String
 getJWT user = do
     jwts   <- asks myConfigJWTSettings
     eToken <- liftIO $ makeJWT user jwts Nothing

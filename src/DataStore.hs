@@ -1,37 +1,32 @@
 {-# LANGUAGE FlexibleContexts    #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 
-module DataStore (fetchAll, fetchOne) where
+module DataStore (runSql, selectAllUsers, selectOneUser) where
 
-import           Conduit
-import           Config
-import           Control.Monad.Logger
-import           Control.Monad.Reader.Class
-import qualified Database.Esqueleto as E
-import           Database.Persist
-import           Database.Persist.Sqlite
-import           Migration
+import Conduit
+import Config
+import Control.Monad.Logger
+import Control.Monad.Reader.Class
+import Database.Esqueleto as E
+import Migration
 
 runSql :: (MonadReader MyConfig m, MonadIO m) => SqlPersistM a -> m a
 runSql sql = do
     pool <- asks myConfigPool
-    liftIO . runResourceT . runNoLoggingT .(`runSqlPool` pool) $ do
-        runMigration migrateAll
-        sql
+    liftIO . runResourceT . runNoLoggingT $ (`runSqlPool` pool) sql
 
-fetchAll :: (MonadReader MyConfig m, MonadIO m) => m [User]
-fetchAll = runSql $ do
-    users <- E.select . E.from $ \(user :: E.SqlExpr (Entity User)) -> return user
-    return $ fmap entityVal users
+selectAllUsers :: SqlPersistM [Entity User]
+selectAllUsers =
+    select . from $ \(user :: SqlExpr (Entity User)) -> return user
 
-fetchOne :: (MonadReader MyConfig m, MonadIO m) => String -> m (Maybe User)
-fetchOne name = runSql $ do
-    result <- E.select . E.from $
+selectOneUser :: String -> SqlPersistM (Maybe (Entity User))
+selectOneUser name = do
+    result <- select . from $
         \user -> do
-            E.where_ $ user E.^. UserName E.==. E.val name
+            where_ $ user ^. UserName E.==. val name
             return user
     case result of
-        Entity { entityVal = user } : _
+        user : _
             -> return $ Just user
         _
             -> return Nothing

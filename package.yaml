@@ -25,6 +25,7 @@ ghc-options:
 dependencies:
 - base >= 4.7 && < 5
 - aeson
+- bytestring
 - conduit
 - esqueleto
 - monad-logger
@@ -32,6 +33,7 @@ dependencies:
 - persistent
 - persistent-sqlite
 - persistent-template
+- resource-pool
 - servant-auth-server
 - servant-server
 - text
