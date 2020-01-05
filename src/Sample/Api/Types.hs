@@ -1,9 +1,14 @@
 {-# LANGUAGE DeriveGeneric #-}
 
-module Sample.Types where
+module Sample.Api.Types where
 
+import Control.Monad.Reader
 import Data.Aeson
 import GHC.Generics
+import Sample.Config
+import Servant
+
+type MyHandler = ReaderT MyConfig Handler
 
 data SignUpParams = SignUpParams
     { signUpName         :: String

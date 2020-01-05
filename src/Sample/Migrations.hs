@@ -8,14 +8,13 @@
 {-# LANGUAGE TemplateHaskell            #-}
 {-# LANGUAGE TypeFamilies               #-}
 
-module Sample.Migration where
+module Sample.Migrations where
 
 import Conduit
 import Control.Monad.Logger
 import Control.Monad.Reader
 import Data.Either.Combinators
 import Data.Text
-import Database.Esqueleto
 import Database.Persist.Sqlite
 import Database.Persist.TH
 import GHC.Generics

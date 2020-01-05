@@ -1,23 +1,12 @@
-{-# LANGUAGE FlexibleContexts    #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 
-module Sample.DataStore where
+module Sample.Database.User where
 
 import Conduit
-import Control.Monad.Logger
-import Control.Monad.Reader.Class
 import Data.Either.Combinators
 import Database.Esqueleto as E
-import Sample.Config
-import Sample.Migration
+import Sample.Migrations
 import Sample.Password
-
-runSql ::
-    (MonadReader MyConfig m, MonadIO m) =>
-    SqlPersistM a -> m a
-runSql sql = do
-    pool <- asks myConfigPool
-    liftIO . runResourceT . runNoLoggingT $ (`runSqlPool` pool) sql
 
 insertUser :: String -> String -> Maybe Int -> SqlPersistM (Maybe (Entity User))
 insertUser name password age = do
