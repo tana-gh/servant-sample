@@ -10,7 +10,7 @@ import Network.Wai.Handler.Warp
 import Sample.App
 import Sample.Config
 import Sample.Key
-import Sample.Migration
+import Sample.Migrations
 import Servant.Auth.Server
 
 main :: IO ()
