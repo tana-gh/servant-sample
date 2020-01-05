@@ -1,7 +1,7 @@
 module Sample.Api.SignUp where
 
 import Sample.Api.Types
-import Sample.Api.Utils
+import Sample.Api.Utils.Token
 import Sample.Database
 import Servant
 
@@ -11,6 +11,6 @@ signUp params =
         then do
             mUser <- runSql $ insertUser (signUpName params) (signUpPassword params) (signUpAge params)
             case mUser of
-                Just u  -> Token <$> getJWT u
-                Nothing -> throwError err400
+                Left  _ -> throwError err400
+                Right u -> Token <$> getTokenString' u
         else throwError err400

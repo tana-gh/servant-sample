@@ -1,2 +1,14 @@
+module Main where
+
+import Control.Exception
+import Sample.App
+import Specs.Api
+import Test.Hspec
+import Test.Hspec.Wai
+
 main :: IO ()
-main = putStrLn "Test suite not yet implemented"
+main =
+    bracket (initialize AppEnvTest) destroy $
+        \config ->
+            (`runReaderT` config) . hspec . with (return $ app config) $ do
+                specApi

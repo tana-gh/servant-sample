@@ -24,7 +24,7 @@ type Protected =
 
 type Unprotected =
     "signup" :> ReqBody '[JSON] SignUpParams :> Post '[JSON] Token :<|>
-    "logIn" :> ReqBody '[JSON] LogInParams :> Post '[JSON] Token
+    "login" :> ReqBody '[JSON] LogInParams :> Post '[JSON] Token
 
 server :: ServerT MyApi MyHandler
 server = protected :<|> unprotected

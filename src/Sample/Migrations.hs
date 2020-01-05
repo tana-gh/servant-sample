@@ -32,9 +32,9 @@ share [mkPersist sqlSettings, mkMigrate "migrateAll"] [persistLowerCase|
 instance FromJWT (Entity User)
 instance ToJWT   (Entity User)
 
-doMigration :: Migration -> IO ()
-doMigration migration =
-    runResourceT . runStderrLoggingT . withSqliteConn getSqliteFilePath . runReaderT $ do
+doMigration :: Migration -> FilePath -> IO ()
+doMigration migration filePath =
+    runResourceT . runStderrLoggingT . withSqliteConn (pack filePath) . runReaderT $ do
         runMigration migration
         insertTestData
     where
@@ -46,6 +46,3 @@ doMigration migration =
         hash <- liftIO $ fromRight' <$> generatePasswordHash password
         _ <- insert $ User name hash age
         return ()
-
-getSqliteFilePath :: Text
-getSqliteFilePath = "./sample.sqlite3"

@@ -8,7 +8,7 @@ generatePasswordHash password = do
     mHash <- hashPasswordUsingPolicy slowerBcryptHashingPolicy (pack password)
     case mHash of
         Just h  -> return . Right $ unpack h
-        Nothing -> return $ Left "Fail to generate password hash."
+        Nothing -> return $ Left "Failed to generate a password hash."
 
 validatePasswordString :: String -> String -> Bool
 validatePasswordString hash attempt = validatePassword (pack hash) (pack attempt)
