@@ -1,9 +1,6 @@
-{-# LANGUAGE DataKinds        #-}
-{-# LANGUAGE FlexibleContexts #-}
-{-# LANGUAGE TypeOperators    #-}
-
 module Sample.Api (MyApi, server) where
 
+import Relude
 import Database.Persist
 import Sample.Api.GetAllUsers
 import Sample.Api.GetUser

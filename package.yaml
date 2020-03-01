@@ -21,9 +21,60 @@ description:         Please see the README on GitHub at <https://github.com/gith
 
 ghc-options:
 - -Wall
+- -Wcompat
+- -Widentities
+- -Wincomplete-record-updates
+- -Wincomplete-uni-patterns
+- -Wpartial-fields
+- -Wredundant-constraints
+
+default-extensions:
+- AutoDeriveTypeable
+- BangPatterns
+- BinaryLiterals
+- ConstraintKinds
+- DataKinds
+- DefaultSignatures
+- DeriveDataTypeable
+- DeriveFoldable
+- DeriveFunctor
+- DeriveGeneric
+- DeriveTraversable
+- DoAndIfThenElse
+- EmptyDataDecls
+- ExistentialQuantification
+- FlexibleContexts
+- FlexibleInstances
+- FunctionalDependencies
+- GADTs
+- GeneralizedNewtypeDeriving
+- InstanceSigs
+- KindSignatures
+- LambdaCase
+- MonadFailDesugaring
+- MultiParamTypeClasses
+- MultiWayIf
+- NamedFieldPuns
+- NoImplicitPrelude
+- OverloadedStrings
+- PartialTypeSignatures
+- PatternGuards
+- PolyKinds
+- QuasiQuotes
+- RankNTypes
+- RecordWildCards
+- ScopedTypeVariables
+- StandaloneDeriving
+- TemplateHaskell
+- TupleSections
+- TypeOperators
+- TypeFamilies
+- TypeSynonymInstances
+- ViewPatterns
 
 dependencies:
 - base >= 4.7 && < 5
+- relude
 
 library:
   source-dirs: src
@@ -36,15 +87,12 @@ library:
   - esqueleto
   - filepath
   - monad-logger
-  - mtl
   - persistent
   - persistent-sqlite
   - persistent-template
   - resource-pool
   - servant-auth-server
   - servant-server
-  - text
-  - transformers
   - unliftio-core
 
 executables:
@@ -70,12 +118,9 @@ tests:
     dependencies:
     - servant-sample
     - aeson
-    - bytestring
     - either
     - hspec
     - hspec-core
     - hspec-wai
     - hspec-wai-json
-    - mtl
     - servant-server
-    - transformers

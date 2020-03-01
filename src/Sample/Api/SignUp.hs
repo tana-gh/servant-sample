@@ -1,5 +1,6 @@
 module Sample.Api.SignUp where
 
+import Relude
 import Sample.Api.Types
 import Sample.Api.Utils.Token
 import Sample.Database

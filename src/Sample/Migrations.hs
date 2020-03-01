@@ -1,23 +1,11 @@
-{-# LANGUAGE DeriveGeneric              #-}
-{-# LANGUAGE FlexibleInstances          #-}
-{-# LANGUAGE GADTs                      #-}
-{-# LANGUAGE GeneralizedNewtypeDeriving #-}
-{-# LANGUAGE MultiParamTypeClasses      #-}
-{-# LANGUAGE OverloadedStrings          #-}
-{-# LANGUAGE QuasiQuotes                #-}
-{-# LANGUAGE TemplateHaskell            #-}
-{-# LANGUAGE TypeFamilies               #-}
-
 module Sample.Migrations where
 
+import Relude
 import Conduit
 import Control.Monad.Logger
-import Control.Monad.Reader
 import Data.Either.Combinators
-import Data.Text
 import Database.Persist.Sqlite
 import Database.Persist.TH
-import GHC.Generics
 import Sample.Password
 import Servant.Auth.Server
 
@@ -34,7 +22,7 @@ instance ToJWT   (Entity User)
 
 doMigration :: Migration -> FilePath -> IO ()
 doMigration migration filePath =
-    runResourceT . runStderrLoggingT . withSqliteConn (pack filePath) . runReaderT $ do
+    runResourceT . runStderrLoggingT . withSqliteConn (toText filePath) . runReaderT $ do
         runMigration migration
         insertTestData
     where

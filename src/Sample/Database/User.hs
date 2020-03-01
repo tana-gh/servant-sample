@@ -1,11 +1,7 @@
-{-# LANGUAGE FlexibleContexts    #-}
-{-# LANGUAGE ScopedTypeVariables #-}
-{-# LANGUAGE TypeFamilies #-}
-
 module Sample.Database.User where
 
-import Conduit
-import Database.Esqueleto as E
+import Relude
+import Database.Esqueleto
 import Sample.Migrations
 import Sample.Password
 
@@ -19,7 +15,7 @@ insertUser name password age = do
     insertUserWithHash hash = do
         userId <- insert $ User name hash age
         result <- select . from $ \user -> do
-            where_ $ user ^. UserId E.==. val userId
+            where_ $ user ^. UserId ==. val userId
             return user
         case result of
             user : _ ->
@@ -34,7 +30,7 @@ selectAllUsers =
 selectUser :: String -> SqlPersistM (Maybe (Entity User))
 selectUser name = do
     result <- select . from $ \user -> do
-        where_ $ user ^. UserName E.==. val name
+        where_ $ user ^. UserName ==. val name
         return user
     case result of
         user : _ ->

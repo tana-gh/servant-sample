@@ -1,6 +1,6 @@
 module Sample.Api.Utils.Token where
 
-import Control.Monad.IO.Class
+import Relude
 import Database.Persist
 import Sample.Api.Types
 import Sample.Migrations

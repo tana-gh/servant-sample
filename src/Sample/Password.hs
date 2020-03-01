@@ -1,5 +1,6 @@
 module Sample.Password where
 
+import Relude
 import Crypto.BCrypt
 import Data.ByteString.Char8
 

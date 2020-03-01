@@ -1,10 +1,7 @@
-{-# LANGUAGE DeriveGeneric #-}
-
 module Sample.Api.Types where
 
-import Control.Monad.Reader
+import Relude
 import Data.Aeson
-import GHC.Generics
 import Sample.Config
 import Servant
 

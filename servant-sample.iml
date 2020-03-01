@@ -190,5 +190,6 @@
     <orderEntry type="library" name="th-lift-instances-0.1.14" level="project" />
     <orderEntry type="library" name="th-reify-many-0.1.9" level="project" />
     <orderEntry type="library" name="th-expand-syns-0.4.5.0" level="project" />
+    <orderEntry type="library" name="relude-0.5.0" level="project" />
   </component>
 </module>

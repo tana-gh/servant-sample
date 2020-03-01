@@ -1,5 +1,6 @@
 module Sample.Api.LogIn where
 
+import Relude
 import Database.Persist
 import Sample.Api.Types
 import Sample.Api.Utils.Token

@@ -1,5 +1,6 @@
 module Sample.Api.GetUser where
 
+import Relude
 import Database.Persist
 import Sample.Api.Types
 import Sample.Database

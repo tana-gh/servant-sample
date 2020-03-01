@@ -1,11 +1,8 @@
-{-# LANGUAGE DataKinds #-}
-
 module Sample.App (app, destroy, initialize, AppEnv (..)) where
 
+import Relude
 import Control.Monad.Logger
-import Control.Monad.Reader
 import Data.Pool
-import Data.Text
 import Database.Persist.Sqlite
 import Sample.Api
 import Sample.Config
@@ -22,7 +19,7 @@ initialize :: AppEnv -> IO MyConfig
 initialize env = do
     let cookies = defaultCookieSettings
     jwts <- defaultJWTSettings <$> readKey (getKeyFilePath env)
-    pool <- runStderrLoggingT $ createSqlitePool (pack $ getSqliteFilePath env) 8
+    pool <- runStderrLoggingT $ createSqlitePool (toText $ getSqliteFilePath env) 8
     return $ MyConfig cookies jwts pool
 
 destroy :: MyConfig -> IO ()

@@ -1,5 +1,6 @@
 module Main where
 
+import Relude
 import Control.Exception
 import Network.Wai.Handler.Warp
 import Sample.App

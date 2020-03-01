@@ -1,8 +1,6 @@
-{-# LANGUAGE FlexibleContexts #-}
-
 module Sample.Token where
 
-import Control.Monad.Reader
+import Relude
 import Database.Persist
 import Sample.Config
 import Sample.Migrations

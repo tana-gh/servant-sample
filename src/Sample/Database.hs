@@ -1,5 +1,3 @@
-{-# LANGUAGE FlexibleContexts #-}
-
 module Sample.Database
     ( insertUser
     , selectAllUsers
@@ -7,9 +5,9 @@ module Sample.Database
     , runSql
     ) where
 
+import Relude
 import Conduit
 import Control.Monad.Logger
-import Control.Monad.Reader.Class
 import Database.Esqueleto
 import Sample.Config
 import Sample.Database.User
