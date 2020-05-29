@@ -1,7 +1,6 @@
-{-# LANGUAGE OverloadedStrings #-}
-
 module Specs.Api where
 
+import Relude
 import Control.Monad.Reader
 import Control.Monad.Trans.Class
 import Data.Aeson

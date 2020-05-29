@@ -29,7 +29,6 @@ ghc-options:
 - -Wredundant-constraints
 
 default-extensions:
-- AutoDeriveTypeable
 - BangPatterns
 - BinaryLiterals
 - ConstraintKinds
@@ -39,6 +38,7 @@ default-extensions:
 - DeriveFoldable
 - DeriveFunctor
 - DeriveGeneric
+- DerivingStrategies               
 - DeriveTraversable
 - DoAndIfThenElse
 - EmptyDataDecls
@@ -51,7 +51,6 @@ default-extensions:
 - InstanceSigs
 - KindSignatures
 - LambdaCase
-- MonadFailDesugaring
 - MultiParamTypeClasses
 - MultiWayIf
 - NamedFieldPuns
@@ -70,6 +69,7 @@ default-extensions:
 - TypeOperators
 - TypeFamilies
 - TypeSynonymInstances
+- UndecidableInstances
 - ViewPatterns
 
 dependencies:
@@ -123,4 +123,6 @@ tests:
     - hspec-core
     - hspec-wai
     - hspec-wai-json
+    - mtl
     - servant-server
+    - transformers

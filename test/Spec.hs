@@ -1,5 +1,6 @@
 module Main where
 
+import Relude
 import Control.Exception
 import Control.Monad.Reader
 import Sample.App
