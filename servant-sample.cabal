@@ -3,23 +3,19 @@ name:               servant-sample
 version:            0.1.0.0
 synopsis:
 
--- A longer description of the package.
--- description:
 homepage:           https://github.com/tana-gh/servant-sample
 
--- A URL where users can report bugs.
--- bug-reports:
 license:            BSD-3-Clause
 license-file:       LICENSE
 author:             tana-gh
 maintainer:         yozoranotakaku@gmail.com
 
--- A copyright notice.
--- copyright:
--- category:
 extra-source-files: CHANGELOG.md
 
 library
+    default-language: Haskell2010
+    hs-source-dirs:   src
+    
     exposed-modules:
         Sample.Api,
         Sample.Api.GetAllUsers,
@@ -37,8 +33,6 @@ library
         Sample.Password,
         Sample.Token
 
-    -- LANGUAGE extensions used by modules in this package.
-    -- other-extensions:
     build-depends:
         base ^>=4.14.1.0,
         relude,
@@ -102,17 +96,12 @@ library
         UndecidableInstances,
         ViewPatterns
 
-    hs-source-dirs:   src
-    default-language: Haskell2010
-
 executable servant-sample
+    default-language: Haskell2010
+    hs-source-dirs:   app
     main-is:          Main.hs
+    ghc-options:      -threaded -rtsopts -with-rtsopts=-N
 
-    -- Modules included in this executable, other than Main.
-    -- other-modules:
-
-    -- LANGUAGE extensions used by modules in this package.
-    -- other-extensions:
     build-depends:
         base ^>=4.14.1.0,
         servant-sample,
@@ -163,18 +152,12 @@ executable servant-sample
         UndecidableInstances,
         ViewPatterns
 
-    hs-source-dirs:   app
+executable generate-key
     default-language: Haskell2010
+    hs-source-dirs:   scripts
+    main-is:          generate-key.hs
     ghc-options:      -threaded -rtsopts -with-rtsopts=-N
 
-executable generate-key
-    main-is:          generate-key.hs
-
-    -- Modules included in this executable, other than Main.
-    -- other-modules:
-
-    -- LANGUAGE extensions used by modules in this package.
-    -- other-extensions:
     build-depends:
         base ^>=4.14.1.0,
         servant-sample,
@@ -224,18 +207,12 @@ executable generate-key
         UndecidableInstances,
         ViewPatterns
 
+executable do-migration
     hs-source-dirs:   scripts
     default-language: Haskell2010
+    main-is:          do-migration.hs
     ghc-options:      -threaded -rtsopts -with-rtsopts=-N
 
-executable do-migration
-    main-is:          do-migration.hs
-
-    -- Modules included in this executable, other than Main.
-    -- other-modules:
-
-    -- LANGUAGE extensions used by modules in this package.
-    -- other-extensions:
     build-depends:
         base ^>=4.14.1.0,
         servant-sample,
@@ -286,18 +263,16 @@ executable do-migration
         UndecidableInstances,
         ViewPatterns
 
-    hs-source-dirs:   scripts
-    default-language: Haskell2010
-    ghc-options:      -threaded -rtsopts -with-rtsopts=-N
-
 test-suite servant-sample-test
     default-language: Haskell2010
-    ghc-options:      -threaded -rtsopts -with-rtsopts=-N
     type:             exitcode-stdio-1.0
     hs-source-dirs:   test
     main-is:          Spec.hs
+    ghc-options:      -threaded -rtsopts -with-rtsopts=-N
+
     build-depends:
         base ^>=4.14.1.0,
+        servant-sample,
         relude,
         aeson,
         either,
