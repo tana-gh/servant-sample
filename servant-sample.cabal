@@ -1,0 +1,354 @@
+cabal-version:      2.4
+name:               servant-sample
+version:            0.1.0.0
+synopsis:
+
+-- A longer description of the package.
+-- description:
+homepage:           https://github.com/tana-gh/servant-sample
+
+-- A URL where users can report bugs.
+-- bug-reports:
+license:            BSD-3-Clause
+license-file:       LICENSE
+author:             tana-gh
+maintainer:         yozoranotakaku@gmail.com
+
+-- A copyright notice.
+-- copyright:
+-- category:
+extra-source-files: CHANGELOG.md
+
+library
+    exposed-modules:
+        Sample.Api,
+        Sample.Api.GetAllUsers,
+        Sample.Api.GetUser,
+        Sample.Api.LogIn,
+        Sample.Api.SignUp,
+        Sample.Api.Types,
+        Sample.Api.Utils.Token,
+        Sample.App,
+        Sample.Config,
+        Sample.Database,
+        Sample.Database.User,
+        Sample.Key,
+        Sample.Migrations,
+        Sample.Password,
+        Sample.Token
+
+    -- LANGUAGE extensions used by modules in this package.
+    -- other-extensions:
+    build-depends:
+        base ^>=4.14.1.0,
+        relude,
+        aeson,
+        bcrypt,
+        bytestring,
+        conduit,
+        either,
+        esqueleto,
+        filepath,
+        monad-logger,
+        persistent,
+        persistent-sqlite,
+        persistent-template,
+        resource-pool,
+        servant-auth-server,
+        servant-server,
+        unliftio-core
+
+    extensions:
+        BangPatterns,
+        BinaryLiterals,
+        ConstraintKinds,
+        DataKinds,
+        DefaultSignatures,
+        DeriveDataTypeable,
+        DeriveFoldable,
+        DeriveFunctor,
+        DeriveGeneric,
+        DerivingStrategies,
+        DeriveTraversable,
+        DoAndIfThenElse,
+        EmptyDataDecls,
+        ExistentialQuantification,
+        FlexibleContexts,
+        FlexibleInstances,
+        FunctionalDependencies,
+        GADTs,
+        GeneralizedNewtypeDeriving,
+        InstanceSigs,
+        KindSignatures,
+        LambdaCase,
+        MultiParamTypeClasses,
+        MultiWayIf,
+        NamedFieldPuns,
+        NoImplicitPrelude,
+        OverloadedStrings,
+        PartialTypeSignatures,
+        PatternGuards,
+        PolyKinds,
+        QuasiQuotes,
+        RankNTypes,
+        RecordWildCards,
+        ScopedTypeVariables,
+        StandaloneDeriving,
+        TemplateHaskell,
+        TupleSections,
+        TypeOperators,
+        TypeFamilies,
+        TypeSynonymInstances,
+        UndecidableInstances,
+        ViewPatterns
+
+    hs-source-dirs:   src
+    default-language: Haskell2010
+
+executable servant-sample
+    main-is:          Main.hs
+
+    -- Modules included in this executable, other than Main.
+    -- other-modules:
+
+    -- LANGUAGE extensions used by modules in this package.
+    -- other-extensions:
+    build-depends:
+        base ^>=4.14.1.0,
+        servant-sample,
+        relude,
+        warp
+
+    extensions:
+        BangPatterns,
+        BinaryLiterals,
+        ConstraintKinds,
+        DataKinds,
+        DefaultSignatures,
+        DeriveDataTypeable,
+        DeriveFoldable,
+        DeriveFunctor,
+        DeriveGeneric,
+        DerivingStrategies,
+        DeriveTraversable,
+        DoAndIfThenElse,
+        EmptyDataDecls,
+        ExistentialQuantification,
+        FlexibleContexts,
+        FlexibleInstances,
+        FunctionalDependencies,
+        GADTs,
+        GeneralizedNewtypeDeriving,
+        InstanceSigs,
+        KindSignatures,
+        LambdaCase,
+        MultiParamTypeClasses,
+        MultiWayIf,
+        NamedFieldPuns,
+        NoImplicitPrelude,
+        OverloadedStrings,
+        PartialTypeSignatures,
+        PatternGuards,
+        PolyKinds,
+        QuasiQuotes,
+        RankNTypes,
+        RecordWildCards,
+        ScopedTypeVariables,
+        StandaloneDeriving,
+        TemplateHaskell,
+        TupleSections,
+        TypeOperators,
+        TypeFamilies,
+        TypeSynonymInstances,
+        UndecidableInstances,
+        ViewPatterns
+
+    hs-source-dirs:   app
+    default-language: Haskell2010
+    ghc-options:      -threaded -rtsopts -with-rtsopts=-N
+
+executable generate-key
+    main-is:          generate-key.hs
+
+    -- Modules included in this executable, other than Main.
+    -- other-modules:
+
+    -- LANGUAGE extensions used by modules in this package.
+    -- other-extensions:
+    build-depends:
+        base ^>=4.14.1.0,
+        servant-sample,
+        relude
+
+    extensions:
+        BangPatterns,
+        BinaryLiterals,
+        ConstraintKinds,
+        DataKinds,
+        DefaultSignatures,
+        DeriveDataTypeable,
+        DeriveFoldable,
+        DeriveFunctor,
+        DeriveGeneric,
+        DerivingStrategies,
+        DeriveTraversable,
+        DoAndIfThenElse,
+        EmptyDataDecls,
+        ExistentialQuantification,
+        FlexibleContexts,
+        FlexibleInstances,
+        FunctionalDependencies,
+        GADTs,
+        GeneralizedNewtypeDeriving,
+        InstanceSigs,
+        KindSignatures,
+        LambdaCase,
+        MultiParamTypeClasses,
+        MultiWayIf,
+        NamedFieldPuns,
+        NoImplicitPrelude,
+        OverloadedStrings,
+        PartialTypeSignatures,
+        PatternGuards,
+        PolyKinds,
+        QuasiQuotes,
+        RankNTypes,
+        RecordWildCards,
+        ScopedTypeVariables,
+        StandaloneDeriving,
+        TemplateHaskell,
+        TupleSections,
+        TypeOperators,
+        TypeFamilies,
+        TypeSynonymInstances,
+        UndecidableInstances,
+        ViewPatterns
+
+    hs-source-dirs:   scripts
+    default-language: Haskell2010
+    ghc-options:      -threaded -rtsopts -with-rtsopts=-N
+
+executable do-migration
+    main-is:          do-migration.hs
+
+    -- Modules included in this executable, other than Main.
+    -- other-modules:
+
+    -- LANGUAGE extensions used by modules in this package.
+    -- other-extensions:
+    build-depends:
+        base ^>=4.14.1.0,
+        servant-sample,
+        relude,
+        persistent
+
+    extensions:
+        BangPatterns,
+        BinaryLiterals,
+        ConstraintKinds,
+        DataKinds,
+        DefaultSignatures,
+        DeriveDataTypeable,
+        DeriveFoldable,
+        DeriveFunctor,
+        DeriveGeneric,
+        DerivingStrategies,
+        DeriveTraversable,
+        DoAndIfThenElse,
+        EmptyDataDecls,
+        ExistentialQuantification,
+        FlexibleContexts,
+        FlexibleInstances,
+        FunctionalDependencies,
+        GADTs,
+        GeneralizedNewtypeDeriving,
+        InstanceSigs,
+        KindSignatures,
+        LambdaCase,
+        MultiParamTypeClasses,
+        MultiWayIf,
+        NamedFieldPuns,
+        NoImplicitPrelude,
+        OverloadedStrings,
+        PartialTypeSignatures,
+        PatternGuards,
+        PolyKinds,
+        QuasiQuotes,
+        RankNTypes,
+        RecordWildCards,
+        ScopedTypeVariables,
+        StandaloneDeriving,
+        TemplateHaskell,
+        TupleSections,
+        TypeOperators,
+        TypeFamilies,
+        TypeSynonymInstances,
+        UndecidableInstances,
+        ViewPatterns
+
+    hs-source-dirs:   scripts
+    default-language: Haskell2010
+    ghc-options:      -threaded -rtsopts -with-rtsopts=-N
+
+test-suite servant-sample-test
+    default-language: Haskell2010
+    ghc-options:      -threaded -rtsopts -with-rtsopts=-N
+    type:             exitcode-stdio-1.0
+    hs-source-dirs:   test
+    main-is:          Spec.hs
+    build-depends:
+        base ^>=4.14.1.0,
+        relude,
+        aeson,
+        either,
+        hspec,
+        hspec-core,
+        hspec-wai,
+        hspec-wai-json,
+        mtl,
+        servant-server,
+        transformers
+
+    extensions:
+        BangPatterns,
+        BinaryLiterals,
+        ConstraintKinds,
+        DataKinds,
+        DefaultSignatures,
+        DeriveDataTypeable,
+        DeriveFoldable,
+        DeriveFunctor,
+        DeriveGeneric,
+        DerivingStrategies,
+        DeriveTraversable,
+        DoAndIfThenElse,
+        EmptyDataDecls,
+        ExistentialQuantification,
+        FlexibleContexts,
+        FlexibleInstances,
+        FunctionalDependencies,
+        GADTs,
+        GeneralizedNewtypeDeriving,
+        InstanceSigs,
+        KindSignatures,
+        LambdaCase,
+        MultiParamTypeClasses,
+        MultiWayIf,
+        NamedFieldPuns,
+        NoImplicitPrelude,
+        OverloadedStrings,
+        PartialTypeSignatures,
+        PatternGuards,
+        PolyKinds,
+        QuasiQuotes,
+        RankNTypes,
+        RecordWildCards,
+        ScopedTypeVariables,
+        StandaloneDeriving,
+        TemplateHaskell,
+        TupleSections,
+        TypeOperators,
+        TypeFamilies,
+        TypeSynonymInstances,
+        UndecidableInstances,
+        ViewPatterns
